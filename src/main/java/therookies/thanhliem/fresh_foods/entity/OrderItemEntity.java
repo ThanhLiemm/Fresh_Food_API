@@ -10,8 +10,6 @@ public class OrderItemEntity{
     private long id;
     @Column(name="quantity")
     private int quantity;
-    @Column(name ="status")
-    private int status;
     @OneToOne
     @JoinColumn(name="product_id")
     private ProductEntity item;
@@ -33,14 +31,6 @@ public class OrderItemEntity{
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public ProductEntity getItem() {

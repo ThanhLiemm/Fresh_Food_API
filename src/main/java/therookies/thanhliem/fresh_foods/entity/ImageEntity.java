@@ -12,8 +12,8 @@ public class ImageEntity {
     private String url;
     @Column(name="type")
     private int type;
-    @Column(name="status")
-    private int status;
+    @Column(length = 8,name = "status")
+    private ProductEntity.Status status;
     @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductEntity product;
@@ -42,11 +42,11 @@ public class ImageEntity {
         this.type = type;
     }
 
-    public int getStatus() {
+    public ProductEntity.Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(ProductEntity.Status status) {
         this.status = status;
     }
 

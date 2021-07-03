@@ -1,13 +1,27 @@
 package therookies.thanhliem.fresh_foods.entity;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "product")
-public class ProductEntity extends BaseEntity{
+@EntityListeners(AuditingEntityListener.class)
+public class ProductEntity{
+    public enum Status {
+        INACTIVE,ACTIVE;
+    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name ="name")
     private String name;
     @Column(name="description")
@@ -18,12 +32,27 @@ public class ProductEntity extends BaseEntity{
     private int discount;
     @Column(name="rating")
     private int rating;
-    @Column(name = "status")
-    private int status;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 8,name = "status")
+    private Status status;
     @Column(name = "deadline")
     private Date deadline;
     @Column(name="unittype")
-    private String unittype;
+    private String unitType;
+    @Column(name="quantity")
+    private int quanlity;
+    @CreatedBy
+    @Column(name="createby")
+    private String createdBy;
+    @CreatedDate
+    @Column(name ="createddate")
+    private Date createdDate;
+    @LastModifiedBy
+    @Column(name="modifiedby")
+    private String modifiedBy;
+    @LastModifiedDate
+    @Column(name="modifieddate")
+    private Date modifiedDate;
     @ManyToOne
     @JoinColumn(name="category_id")
     private CategoryEntity category;
@@ -31,7 +60,6 @@ public class ProductEntity extends BaseEntity{
     private List<ImageEntity> images = new ArrayList<>();
     @OneToOne(mappedBy = "item")
     private OrderItemEntity orderItem;
-
     public String getName() {
         return name;
     }
@@ -72,11 +100,11 @@ public class ProductEntity extends BaseEntity{
         this.rating = rating;
     }
 
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -88,12 +116,12 @@ public class ProductEntity extends BaseEntity{
         this.deadline = deadline;
     }
 
-    public String getUnittype() {
-        return unittype;
+    public String getUnitType() {
+        return unitType;
     }
 
-    public void setUnittype(String unittype) {
-        this.unittype = unittype;
+    public void setUnitType(String unitType) {
+        this.unitType = unitType;
     }
 
     public CategoryEntity getCategory() {
@@ -118,5 +146,53 @@ public class ProductEntity extends BaseEntity{
 
     public void setOrderItem(OrderItemEntity orderItem) {
         this.orderItem = orderItem;
+    }
+
+    public int getQuanlity() {
+        return quanlity;
+    }
+
+    public void setQuanlity(int quanlity) {
+        this.quanlity = quanlity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 }

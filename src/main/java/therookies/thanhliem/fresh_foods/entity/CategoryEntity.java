@@ -1,21 +1,41 @@
 package therookies.thanhliem.fresh_foods.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "category")
-public class CategoryEntity extends BaseEntity {
+@EntityListeners(AuditingEntityListener.class)
+public class CategoryEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name="name")
     private String name;
     @Column(name ="parentid")
     private long parentid;
-    @Column(name="status")
-    private int status;
+    @Column(length = 8,name = "status")
+    private ProductEntity.Status status;
+    @CreatedBy
+    @Column(name="createby")
+    private String createdBy;
+    @CreatedDate
+    @Column(name ="createddate")
+    private Date createdDate;
+    @LastModifiedBy
+    @Column(name="modifiedby")
+    private String modifiedBy;
+    @LastModifiedDate
+    @Column(name="modifieddate")
+    private Date modifiedDate;
     @OneToMany(mappedBy = "category")
     private List<ProductEntity> products= new ArrayList<>();
 
@@ -35,11 +55,11 @@ public class CategoryEntity extends BaseEntity {
         this.parentid = parentid;
     }
 
-    public int getStatus() {
+    public ProductEntity.Status getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(ProductEntity.Status status) {
         this.status = status;
     }
 
@@ -49,5 +69,45 @@ public class CategoryEntity extends BaseEntity {
 
     public void setProducts(List<ProductEntity> products) {
         this.products = products;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 }
