@@ -10,10 +10,6 @@ public class ImageEntity {
     private long id;
     @Column(name="url")
     private String url;
-    @Column(name="type")
-    private int type;
-    @Column(length = 8,name = "status")
-    private ProductEntity.Status status;
     @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductEntity product;
@@ -32,22 +28,6 @@ public class ImageEntity {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public ProductEntity.Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(ProductEntity.Status status) {
-        this.status = status;
     }
 
     public ProductEntity getProduct() {

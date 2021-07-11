@@ -20,12 +20,8 @@ public class CategoryEntity {
     private Long id;
     @Column(name="name")
     private String name;
-    @Column(name ="parentid")
-    private long parentid;
-    @Column(length = 8,name = "status")
-    private ProductEntity.Status status;
     @CreatedBy
-    @Column(name="createby")
+    @Column(name="createdby")
     private String createdBy;
     @CreatedDate
     @Column(name ="createddate")
@@ -45,22 +41,6 @@ public class CategoryEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public long getParentid() {
-        return parentid;
-    }
-
-    public void setParentid(long parentid) {
-        this.parentid = parentid;
-    }
-
-    public ProductEntity.Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(ProductEntity.Status status) {
-        this.status = status;
     }
 
     public List<ProductEntity> getProducts() {

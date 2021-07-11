@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "product")
@@ -40,9 +39,9 @@ public class ProductEntity{
     @Column(name="unittype")
     private String unitType;
     @Column(name="quantity")
-    private int quanlity;
+    private int quantity;
     @CreatedBy
-    @Column(name="createby")
+    @Column(name="createdby")
     private String createdBy;
     @CreatedDate
     @Column(name ="createddate")
@@ -56,10 +55,11 @@ public class ProductEntity{
     @ManyToOne
     @JoinColumn(name="category_id")
     private CategoryEntity category;
-    @OneToMany(mappedBy = "product")
+
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
     private List<ImageEntity> images = new ArrayList<>();
-    @OneToOne(mappedBy = "item")
-    private OrderItemEntity orderItem;
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    List<OrderDetailEntity> orderDetailEntities = new ArrayList<>();
     public String getName() {
         return name;
     }
@@ -140,20 +140,20 @@ public class ProductEntity{
         this.images = images;
     }
 
-    public OrderItemEntity getOrderItem() {
-        return orderItem;
+    public List<OrderDetailEntity> getOrderDetailEntities() {
+        return orderDetailEntities;
     }
 
-    public void setOrderItem(OrderItemEntity orderItem) {
-        this.orderItem = orderItem;
+    public void setOrderDetailEntities(List<OrderDetailEntity> orderDetailEntities) {
+        this.orderDetailEntities = orderDetailEntities;
     }
 
-    public int getQuanlity() {
-        return quanlity;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setQuanlity(int quanlity) {
-        this.quanlity = quanlity;
+    public void setQuantity(int quanlity) {
+        this.quantity = quanlity;
     }
 
     public Long getId() {
@@ -195,4 +195,5 @@ public class ProductEntity{
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
+
 }

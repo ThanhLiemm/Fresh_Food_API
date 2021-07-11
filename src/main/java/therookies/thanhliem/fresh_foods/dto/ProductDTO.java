@@ -4,21 +4,42 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 import therookies.thanhliem.fresh_foods.entity.ProductEntity;
 
+import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ProductDTO {
 
+    @Min(value = 0,message = "Id should not be less than 0")
     private Long id;
+
+    @NotBlank(message="name can not blank")
     private String name;
+
+    @NotNull(message = "Price is not null")
+    @Min(value = 1,message="Price should not be less than 1 ")
     private float price;
+
+    @Min(value =0,message="rating should not be less than 0")
     private int rating;
+
+    @Min(value =0,message ="discount should not be less than 0")
     private int discount;
-    private long category_id;
+
+    private Long category_id;
+    @NotBlank(message = "Description is not blank")
+
     private String description;
+
+    @NotNull(message = "UnitType is not null")
     private String unitType;
+
     private ProductEntity.Status status;
     private String createdBy;
     private String modifiedBy;
+    @Min(value = 1, message = "Quantity should not be less than 1")
+    private int quantity;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date deadline;
@@ -28,6 +49,9 @@ public class ProductDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date modifiedDate;
+
+    @Size(min=2,max = 5, message = "Product must has two to five picture")
+    private List<ImageDTO> listImage = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -69,11 +93,11 @@ public class ProductDTO {
         this.discount = discount;
     }
 
-    public long getCategory_id() {
+    public Long getCategory_id() {
         return category_id;
     }
 
-    public void setCategory_id(long category_id) {
+    public void setCategory_id(Long category_id) {
         this.category_id = category_id;
     }
 
@@ -128,7 +152,6 @@ public class ProductDTO {
     public Date getCreatedDate() {
         return createdDate;
     }
-
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
@@ -139,5 +162,25 @@ public class ProductDTO {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public List<ImageDTO> getListImage() {
+        return listImage;
+    }
+
+    public void setListImge(List<ImageDTO> listImage) {
+        this.listImage = listImage;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setListImage(List<ImageDTO> listImage) {
+        this.listImage = listImage;
     }
 }

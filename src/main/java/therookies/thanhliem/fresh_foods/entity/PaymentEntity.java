@@ -9,19 +9,19 @@ import java.util.List;
 public class PaymentEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(name="name")
     private String name;
     @Column(name="url")
     private String url;
     @OneToMany(mappedBy = "payment")
-    List<OrderDetailEntity> orderdetails = new ArrayList<>();
+    List<OrderEntity> orderdetails = new ArrayList<>();
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -41,11 +41,11 @@ public class PaymentEntity{
         this.url = url;
     }
 
-    public List<OrderDetailEntity> getOrderdetails() {
+    public List<OrderEntity> getOrderdetails() {
         return orderdetails;
     }
 
-    public void setOrderdetails(List<OrderDetailEntity> orderdetails) {
+    public void setOrderdetails(List<OrderEntity> orderdetails) {
         this.orderdetails = orderdetails;
     }
 }

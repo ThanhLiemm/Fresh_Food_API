@@ -1,7 +1,5 @@
 package therookies.thanhliem.fresh_foods.entity;
 
-import org.apache.catalina.User;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +9,7 @@ import java.util.List;
 public class CustomerEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(name="email")
-    private String email;
+    private Long id;
     @Column(name="firstname")
     private String firstname;
     @Column(name = "lastname")
@@ -23,19 +19,10 @@ public class CustomerEntity{
     @Column(name = "phone")
     private String phone;
     @OneToMany(mappedBy = "customer")
-    List<OrderDetailEntity> orderdetails = new ArrayList<>();
+    List<OrderEntity> orderdetails = new ArrayList<>();
     @OneToOne
     @JoinColumn(name="user_id")
     private UserEntity user;
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
     public String getFirstname() {
         return firstname;
     }
@@ -68,11 +55,11 @@ public class CustomerEntity{
         this.phone = phone;
     }
 
-    public List<OrderDetailEntity> getOrderdetails() {
+    public List<OrderEntity> getOrderdetails() {
         return orderdetails;
     }
 
-    public void setOrderdetails(List<OrderDetailEntity> orderdetails) {
+    public void setOrderdetails(List<OrderEntity> orderdetails) {
         this.orderdetails = orderdetails;
     }
 
@@ -84,11 +71,12 @@ public class CustomerEntity{
         this.user = user;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
+
 }
