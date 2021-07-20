@@ -3,6 +3,7 @@ package therookies.thanhliem.fresh_foods.service.impl;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import therookies.thanhliem.fresh_foods.dto.ProductDTO;
@@ -75,7 +76,7 @@ public class ProductService implements IProductService {
     public ProductDTO findById(Long id) {
         ProductEntity productEntity = productRepository.findById(id)
                 .map(product ->{return product;})
-                .orElseThrow(()->{throw new IdNotFoundException("Not Found Product id = "+id);});
+                .orElseThrow(()->{throw new IdNotFoundException("Can not found product id = "+id);});
         ProductDTO productDTO = mapper.map(productEntity,ProductDTO.class);
         return productDTO;
     }
@@ -92,7 +93,7 @@ public class ProductService implements IProductService {
                 .orElseThrow(()->{throw new IdNotFoundException("Can not found product id = "+id);});
         productRepository.delete(productEntity);
         Map<String, String> response = new HashMap<>();
-        response.put("status","Success");
+        response.put("Status","Success");
         return response;
     }
 
@@ -102,6 +103,43 @@ public class ProductService implements IProductService {
             throw new IdNotFoundException("Can not found category id = "+id);
         List<ProductEntity> productEntities = productRepository.getAllByCategoryId(id);
         return mapper.map(productEntities,new TypeToken<List<ProductDTO>>() {}.getType());
+    }
+
+    @Override
+    public List<ProductDTO> findAll(Pageable pageable) {
+        List<ProductEntity> entity = productRepository.findAll(pageable).getContent();
+        //sort active product
+        List<ProductEntity> entities = entity.stream().filter(
+                product -> product.getStatus()==Status.ACTIVE
+        ).collect(Collectors.toList());
+        return mapper.map(entities,new TypeToken<List<ProductDTO>>() {}.getType());
+    }
+
+    @Override
+    public List<ProductDTO> findByCategoryId(Long id, Pageable pageable) {
+        List<ProductEntity> entity = productRepository.findByCategory_Id(id,pageable).getContent();
+        //sort active product
+        List<ProductEntity> entities = entity.stream().filter(
+                product -> product.getStatus()==Status.ACTIVE
+        ).collect(Collectors.toList());
+        return mapper.map(entities,new TypeToken<List<ProductDTO>>() {}.getType());
+    }
+
+
+    @Override
+    public int totalProduct() {
+        Integer result = productRepository.totalProduct();
+        if(result==null) return 0;
+        else return result;
+    }
+
+    @Override
+    public int totalProduct(Long id) {
+        if(!categoryRepository.existsById(id))
+            throw new IdNotFoundException("Can not found category id = "+id);
+        Integer result =productRepository.totalProductCategory(id);
+        if(result==null) return 0;
+        else return result;
     }
 
 }

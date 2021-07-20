@@ -15,6 +15,9 @@ import java.util.List;
 @Table(name = "product")
 @EntityListeners(AuditingEntityListener.class)
 public class ProductEntity{
+    public ProductEntity() {
+
+    }
     public enum Status {
         INACTIVE,ACTIVE;
     }
@@ -196,4 +199,21 @@ public class ProductEntity{
         this.modifiedDate = modifiedDate;
     }
 
+    public ProductEntity(Long id, String name, String description, float price, int discount,
+                         int rating, Status status, Date deadline, String unitType, int quantity, CategoryEntity category,
+                         List<ImageEntity> images, List<OrderDetailEntity> orderDetailEntities) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.discount = discount;
+        this.rating = rating;
+        this.status = status;
+        this.deadline = deadline;
+        this.unitType = unitType;
+        this.quantity = quantity;
+        this.category = category;
+        this.images = images;
+        this.orderDetailEntities = orderDetailEntities;
+    }
 }

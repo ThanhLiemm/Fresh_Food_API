@@ -1,23 +1,26 @@
 package therookies.thanhliem.fresh_foods.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import therookies.thanhliem.fresh_foods.dto.ProductDTO;
-import therookies.thanhliem.fresh_foods.entity.UserEntity;
+import therookies.thanhliem.fresh_foods.dto.pageable.OutputDTO;
 import therookies.thanhliem.fresh_foods.repository.UserRepository;
 import therookies.thanhliem.fresh_foods.service.IProductService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @RestController
 @RequestMapping("/api")
-public class ProductController {
+public class ProductController{
     @Autowired
     private IProductService productService;
     @Autowired
@@ -51,5 +54,33 @@ public class ProductController {
     @DeleteMapping(value="/product/{id}")
     public Map<String,String> deleteProduct(@PathVariable(value = "id") Long id) {
         return productService.delete(id);
+    }
+
+    @GetMapping(value = "/productlist")
+    public OutputDTO getProductPage(@RequestParam(name= "page",defaultValue = "1") @Min(value =1) int page,
+                                    @RequestParam(name = "limit", defaultValue = "3") @Min(value =1) int limit,
+                                    @RequestParam(name = "category", required = false)Long id,
+                                    @RequestParam(name = "sort",defaultValue = "createdDate") String sortType,
+                                    @RequestParam(name = "type",defaultValue = "1") int desc) {
+        OutputDTO result = new OutputDTO();
+        result.setPage(page);
+        if(id==null) { //all product
+            result.setTotalPage((int) Math.ceil((double) (productService.totalProduct())/limit));
+
+            Pageable pageable;
+            if(desc==1) pageable =  PageRequest.of(page-1,limit,Sort.by(sortType).descending());
+            else  pageable =  PageRequest.of(page-1,limit,Sort.by(sortType).ascending());
+            result.setListProduct(productService.findAll(pageable));
+        }
+        else { //product in category
+            result.setTotalPage((int) Math.ceil((double) (productService.totalProduct(id))/limit));
+
+            Pageable pageable;
+            if(desc==1) pageable =  PageRequest.of(page-1,limit,Sort.by(sortType).descending());
+            else  pageable =  PageRequest.of(page-1,limit,Sort.by(sortType).ascending());
+            result.setListProduct(productService.findByCategoryId(id,pageable));
+        }
+
+        return result;
     }
 }

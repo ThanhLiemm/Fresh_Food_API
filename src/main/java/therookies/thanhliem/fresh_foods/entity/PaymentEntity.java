@@ -48,4 +48,25 @@ public class PaymentEntity{
     public void setOrderdetails(List<OrderEntity> orderdetails) {
         this.orderdetails = orderdetails;
     }
+
+    public PaymentEntity(Long id, String name, String url, List<OrderEntity> orderdetails) {
+        this.id = id;
+        this.name = name;
+        this.url = url;
+        this.orderdetails = orderdetails;
+    }
+
+    public PaymentEntity() {
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PaymentEntity payment = (PaymentEntity) o;
+
+        if (id != null ? !id.equals(payment.id) : payment.id != null) return false;
+        if (name != null ? !name.equals(payment.name) : payment.name != null) return false;
+        return true;
+    }
 }

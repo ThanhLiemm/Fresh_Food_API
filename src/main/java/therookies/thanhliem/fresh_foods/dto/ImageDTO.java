@@ -35,4 +35,13 @@ public class ImageDTO {
     public void setProductId(Long productId) {
         this.productId = productId;
     }
+
+    public ImageDTO(Long id, String url, Long productId) {
+        this.id = id;
+        this.url = url;
+        this.productId = productId;
+    }
+
+    public ImageDTO() {
+    }
 }

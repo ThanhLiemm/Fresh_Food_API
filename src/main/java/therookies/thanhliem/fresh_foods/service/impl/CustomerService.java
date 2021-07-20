@@ -18,9 +18,7 @@ public class CustomerService implements ICustomerService {
     UserRepository userRepository;
     @Autowired
     ModelMapper mapper;
-    public CustomerService(ModelMapper modelMapper) {
-        this.mapper = modelMapper;
-    }
+
     @Override
     public CustomerDTO update(CustomerDTO customerDTO) {
         CustomerEntity customerEntity = customerRepository.getById(customerDTO.getUserId());
@@ -29,12 +27,13 @@ public class CustomerService implements ICustomerService {
         customerEntity.setLastname(customerDTO.getLastname());
         customerEntity.setPhone(customerDTO.getPhone());
         customerEntity = customerRepository.save(customerEntity);
-        return mapper.map(customerEntity,CustomerDTO.class);
+        return mapper.map(customerEntity, CustomerDTO.class);
     }
 
     @Override
     public CustomerDTO getById(Long id) {
         CustomerEntity customerEntity = customerRepository.getById(id);
-        return mapper.map(customerEntity,CustomerDTO.class);
+        return mapper.map(customerEntity, CustomerDTO.class);
     }
 }
+

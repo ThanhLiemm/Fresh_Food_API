@@ -10,6 +10,7 @@ import java.util.Map;
 
 import therookies.thanhliem.fresh_foods.dto.PaymentDTO;
 import therookies.thanhliem.fresh_foods.entity.PaymentEntity;
+import therookies.thanhliem.fresh_foods.exception.CanNotChangeDB;
 import therookies.thanhliem.fresh_foods.exception.IdNotFoundException;
 import therookies.thanhliem.fresh_foods.repository.PaymentRepository;
 import therookies.thanhliem.fresh_foods.service.IPaymentService;
@@ -54,7 +55,11 @@ public class PaymentService implements IPaymentService {
 
     @Override
     public Map<String, String> delete(Long id) {
-        if(!paymentRepository.existsById(id)) throw new IdNotFoundException("Can not found payment id = "+id);
+        if(!paymentRepository.existsById(id))
+            throw new IdNotFoundException("Can not found payment id = "+id);
+        PaymentEntity payment = paymentRepository.getById(id);
+        if(payment.getOrderdetails().size()>0)
+            throw new CanNotChangeDB("Payment had order can not delete");
         paymentRepository.deleteById(id);
         Map<String,String> reponse = new HashMap<>();
         reponse.put("Status","Success");
