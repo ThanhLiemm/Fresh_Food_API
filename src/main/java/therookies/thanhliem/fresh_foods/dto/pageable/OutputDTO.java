@@ -8,6 +8,7 @@ import java.util.List;
 public class OutputDTO {
     int totalPage;
     int page;
+    int totalProduct;
     List<ProductDTO> listProduct;
 
     public int getTotalPage() {
@@ -32,5 +33,13 @@ public class OutputDTO {
 
     public void setListProduct(List<ProductDTO> listProduct) {
         this.listProduct = listProduct;
+    }
+
+    public int getTotalProduct() {
+        return totalProduct;
+    }
+
+    public void setTotalProduct(int totalProduct) {
+        this.totalProduct = totalProduct;
     }
 }

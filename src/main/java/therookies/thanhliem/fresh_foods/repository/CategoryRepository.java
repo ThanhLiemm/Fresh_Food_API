@@ -9,4 +9,5 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity,Long> {
     CategoryEntity findOneById(Long id);
     @Query(value = "Select count(id) FROM product where category_id=?1", nativeQuery = true)
     int numberProduct(Long id);
+    
 }

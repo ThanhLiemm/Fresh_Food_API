@@ -63,6 +63,10 @@ public class ProductEntity{
     private List<ImageEntity> images = new ArrayList<>();
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
     List<OrderDetailEntity> orderDetailEntities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    private List<ShopCartEntity> shopcarts = new ArrayList<>();
+
     public String getName() {
         return name;
     }
@@ -215,5 +219,13 @@ public class ProductEntity{
         this.category = category;
         this.images = images;
         this.orderDetailEntities = orderDetailEntities;
+    }
+
+    public List<ShopCartEntity> getShopcarts() {
+        return shopcarts;
+    }
+
+    public void setShopcarts(List<ShopCartEntity> shopcarts) {
+        this.shopcarts = shopcarts;
     }
 }

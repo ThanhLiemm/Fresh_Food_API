@@ -20,6 +20,10 @@ public class CustomerEntity{
     private String phone;
     @OneToMany(mappedBy = "customer")
     List<OrderEntity> orderdetails = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    List<ShopCartEntity> shopcarts = new ArrayList<>();
+
     @OneToOne
     @JoinColumn(name="user_id")
     private UserEntity user;
@@ -79,4 +83,11 @@ public class CustomerEntity{
         this.id = id;
     }
 
+    public List<ShopCartEntity> getShopcarts() {
+        return shopcarts;
+    }
+
+    public void setShopcarts(List<ShopCartEntity> shopcarts) {
+        this.shopcarts = shopcarts;
+    }
 }

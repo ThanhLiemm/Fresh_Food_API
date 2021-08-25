@@ -22,7 +22,7 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) ->{
 
-            String fieldName = ((FieldError) error).getField();
+            String fieldName = "message";
             String message = error.getDefaultMessage();
             errors.put(fieldName, message);
         });

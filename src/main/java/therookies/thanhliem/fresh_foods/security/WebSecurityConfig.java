@@ -62,25 +62,48 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.cors().and().csrf().disable()
-//                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//                .authorizeRequests().antMatchers(HttpMethod.GET,"/api/category").permitAll()
-//                .antMatchers(HttpMethod.GET,"/api/product/**").permitAll()
-//                .antMatchers(HttpMethod.GET,"/api/image/**").permitAll()
-//                .antMatchers(HttpMethod.GET,"api/category/**").permitAll()
-//                .antMatchers(HttpMethod.POST,"/api/product").hasRole("PM")
-//                .antMatchers(HttpMethod.PUT,"/api/product").hasRole("PM")
-//                .antMatchers(HttpMethod.POST,"/api/category/**").hasRole("PM")
-//                .antMatchers(HttpMethod.PUT,"/api/category/**").hasRole("PM")
-//                .antMatchers("api/customer/**").hasRole("USER")
-//                .antMatchers("/api/auth/**").permitAll()
-//                .anyRequest().authenticated();
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/**").permitAll()
+                .authorizeRequests()
+                //product
+                .antMatchers(HttpMethod.GET,"/api/product/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/productlist/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/top10discount").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/admin/product**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/admin/productlist/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/product").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,"/api/product").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/api/product").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/uploadFile").hasRole("ADMIN")
+                //category
+                .antMatchers(HttpMethod.GET,"/api/category/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/category").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,"/api/category").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/api/category").hasRole("ADMIN")
+                //payment
+                .antMatchers(HttpMethod.GET,"/api/payment/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/payment").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,"/api/payment").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/api/payment").hasRole("ADMIN")
+                //order
+                .antMatchers(HttpMethod.GET,"/api/order/**").hasAnyRole("USER","ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/order/**").hasRole("USER")
+                .antMatchers(HttpMethod.PUT,"/api/order").hasAnyRole("USER","ADMIN")
+                //customer
+                .antMatchers(HttpMethod.GET,"/api/customer/**").hasRole("USER")
+                .antMatchers(HttpMethod.PUT,"/api/customer").hasRole("USER")
+                //delete
+                .antMatchers(HttpMethod.DELETE,"/api/image/").hasRole("ADMIN")
+                .antMatchers("/api/shopcart").hasRole("USER")
+                
+                
+                
+                
+                .antMatchers("api/customer/**").hasRole("USER")
+                .antMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated();
+
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import therookies.thanhliem.fresh_foods.dto.OrderDTO;
 import therookies.thanhliem.fresh_foods.entity.OrderDetailEntity;
 import therookies.thanhliem.fresh_foods.entity.OrderEntity;
+import therookies.thanhliem.fresh_foods.entity.OrderEntity.Status;
 import therookies.thanhliem.fresh_foods.entity.ProductEntity;
 import therookies.thanhliem.fresh_foods.exception.CanNotChangeDB;
 import therookies.thanhliem.fresh_foods.exception.IdNotFoundException;
@@ -16,9 +17,12 @@ import therookies.thanhliem.fresh_foods.repository.PaymentRepository;
 import therookies.thanhliem.fresh_foods.repository.ProductRepository;
 import therookies.thanhliem.fresh_foods.service.IOrderService;
 
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 @Service
 public class OrderService implements IOrderService {
@@ -35,24 +39,32 @@ public class OrderService implements IOrderService {
         this.mapper.typeMap(OrderEntity.class,OrderDTO.class).addMapping(OrderEntity::getOrderitems,OrderDTO::setOrderDetailDTOS);
     }
     @Override
+    @Transactional
     public OrderDTO save(OrderDTO orderDTO) {
         if(!paymentRepository.existsById(orderDTO.getPaymentId()))
             throw new IdNotFoundException("Can not found payment id = "+orderDTO.getPaymentId());
         OrderEntity orderEntity = mapper.map(orderDTO,OrderEntity.class);
 
+        //check product Id
         List<OrderDetailEntity> orderDetailList = orderDTO.getOrderDetailDTOS().stream().map(orderDetail->{
             OrderDetailEntity orderE = mapper.map(orderDetail,OrderDetailEntity.class);
             ProductEntity product = productRepository.findById(orderDetail.getProductId())
                     .orElseThrow(()->{throw new IdNotFoundException("Can not found product id = "+orderDetail.getProductId());});
-            if(product.getQuantity()<orderDetail.getQuantity()) throw new CanNotChangeDB("Value invalid");
+            
+            if(product.getQuantity()<orderDetail.getQuantity()) 
+            	throw new CanNotChangeDB("Your buy quantity must be greater than product quantity");
             product.setQuantity(product.getQuantity()-orderDetail.getQuantity());
+            if(product.getQuantity()==0) //if( buy = quantity => quantity=0=>status.Inactive
+            	product.setStatus(therookies.thanhliem.fresh_foods.entity.ProductEntity.Status.INACTIVE);
             orderE.setProduct(product);
             orderE.setOrder(orderEntity);
             return orderE;
         }).collect(Collectors.toList());
+        
         orderEntity.setOrderitems(orderDetailList);
         orderEntity.setTotal(sumPrice(orderDetailList));
         OrderEntity order = orderRepository.save(orderEntity);
+        
         return mapper.map(order,OrderDTO.class);
     }
 
@@ -60,7 +72,8 @@ public class OrderService implements IOrderService {
     public OrderDTO update(OrderDTO orderDTO) {
         OrderEntity order = orderRepository.findById(orderDTO.getId())
                 .orElseThrow(()->{throw new IdNotFoundException("Can not found order id = " + orderDTO.getId());});
-        order.setStatus(orderDTO.getStatus());
+        if(order.getStatus()!=Status.DELIVERED)
+        	order.setStatus(orderDTO.getStatus());
         order = orderRepository.save(order);
         return mapper.map(order,OrderDTO.class);
     }
@@ -81,8 +94,9 @@ public class OrderService implements IOrderService {
 
     @Override
     public List<OrderDTO> getAll() {
-        List<OrderEntity> orderEntities = orderRepository.findAll();
-        return mapper.map(orderEntities,new TypeToken<List<OrderDTO>>() {}.getType());
+//        List<OrderEntity> orderEntities = orderRepository.findAll();
+    	List<OrderEntity> orderEntities = orderRepository.findAllAdmin();
+    		return mapper.map(orderEntities,new TypeToken<List<OrderDTO>>() {}.getType());
     }
 
     @Override

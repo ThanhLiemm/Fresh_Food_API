@@ -7,9 +7,11 @@ import therookies.thanhliem.fresh_foods.entity.OrderEntity;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<OrderEntity,Long> {
-    @Query(value = "select * from orders where customer_id=?1",nativeQuery = true)
+    @Query(value = "select * from orders where customer_id=?1 order by createdDate desc",nativeQuery = true)
     List<OrderEntity> getAllByCustomer(Long id);
     @Query(value = "select * from orders where id=?1 and customer_id=?2",nativeQuery = true)
     OrderEntity getByCustomnerId(Long id,Long customerId);
+    @Query(value = "select * from orders order by createddate desc",nativeQuery = true)
+    List<OrderEntity> findAllAdmin();
 
 }

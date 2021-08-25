@@ -12,7 +12,7 @@ import therookies.thanhliem.fresh_foods.service.ICustomerService;
 import javax.validation.Valid;
 import java.util.Optional;
 
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class CustomerController {

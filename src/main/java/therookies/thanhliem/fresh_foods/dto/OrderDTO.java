@@ -1,6 +1,7 @@
 package therookies.thanhliem.fresh_foods.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import therookies.thanhliem.fresh_foods.entity.OrderEntity.Status;
@@ -8,6 +9,8 @@ import therookies.thanhliem.fresh_foods.entity.OrderEntity.Status;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +28,7 @@ public class OrderDTO {
     private String phone;
     private Status status;
     private float total;
+    @NotNull (message = "Payment not null")
     private Long paymentId;
     private Long customerId;
     private String createdBy;
