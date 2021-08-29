@@ -24,7 +24,7 @@ public class CategoryService implements ICategoryService {
     private ModelMapper mapper ;
 
     @Override
-    public CategoryDTO save(CategoryDTO categoryDTO) {
+    public CategoryDTO save(CategoryDTO categoryDTO) throws RuntimeException{
 
         CategoryEntity categoryEntity  = categoryRepository.findById(categoryDTO.getId())
                     .map(category ->{ //update
@@ -39,7 +39,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public CategoryDTO findById(Long id) {
+    public CategoryDTO findById(Long id) throws RuntimeException{
         CategoryEntity categoryEntity = categoryRepository.findById(id)
                 .orElseThrow(()->{
                     throw new IdNotFoundException("Can not found category id = " +id);
@@ -48,7 +48,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public List<CategoryDTO> findAll() {
+    public List<CategoryDTO> findAll() throws RuntimeException{
         List<CategoryEntity> listCategoryEntity =  categoryRepository.findAll();
         return mapper.map(listCategoryEntity,new TypeToken<List<CategoryDTO>>() {}.getType());
     }
@@ -56,9 +56,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public Map<String, String> delete(Long id) {
         CategoryEntity category = categoryRepository.findById(id)
-                .orElseThrow(() -> {
-                    throw new IdNotFoundException("Can not found category id = " + id);
-                });
+                .orElseThrow(() -> new IdNotFoundException("Can not found category id = " + id));
         if(category.getProducts().size()!=0)
             throw new CanNotChangeDB("Category had product can not delete");
         categoryRepository.delete(category);
