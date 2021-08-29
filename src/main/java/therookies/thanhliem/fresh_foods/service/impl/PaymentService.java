@@ -43,7 +43,7 @@ public class PaymentService implements IPaymentService {
     @Override
     public PaymentDTO getById(Long id) {
         PaymentEntity paymentEntity = paymentRepository.findById(id)
-                .orElseThrow(()->{throw new IdNotFoundException("Can not found payment id = "+id);});
+                .orElseThrow(()-> new IdNotFoundException("Can not found payment id = "+id));
         return mapper.map(paymentEntity,PaymentDTO.class);
     }
 

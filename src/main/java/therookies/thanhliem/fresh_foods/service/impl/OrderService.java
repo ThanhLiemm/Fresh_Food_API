@@ -49,7 +49,7 @@ public class OrderService implements IOrderService {
         List<OrderDetailEntity> orderDetailList = orderDTO.getOrderDetailDTOS().stream().map(orderDetail->{
             OrderDetailEntity orderE = mapper.map(orderDetail,OrderDetailEntity.class);
             ProductEntity product = productRepository.findById(orderDetail.getProductId())
-                    .orElseThrow(()->{throw new IdNotFoundException("Can not found product id = "+orderDetail.getProductId());});
+                    .orElseThrow(()-> new IdNotFoundException("Can not found product id = "+orderDetail.getProductId()));
             
             if(product.getQuantity()<orderDetail.getQuantity()) 
             	throw new CanNotChangeDB("Your buy quantity must be greater than product quantity");
@@ -75,7 +75,7 @@ public class OrderService implements IOrderService {
     @Override
     public OrderDTO update(OrderDTO orderDTO) {
         OrderEntity order = orderRepository.findById(orderDTO.getId())
-                .orElseThrow(()->{throw new IdNotFoundException("Can not found order id = " + orderDTO.getId());});
+                .orElseThrow(()-> new IdNotFoundException("Can not found order id = " + orderDTO.getId()));
         if(order.getStatus()!=Status.DELIVERED)
         	order.setStatus(orderDTO.getStatus());
         order = orderRepository.save(order);
@@ -92,7 +92,7 @@ public class OrderService implements IOrderService {
     @Override
     public OrderDTO getById(Long id) {
         OrderEntity order = orderRepository.findById(id)
-                .orElseThrow(()->{throw new IdNotFoundException("Can not found order id = "+id);});
+                .orElseThrow(()-> new IdNotFoundException("Can not found order id = "+id));
         return mapper.map(order,OrderDTO.class);
     }
 

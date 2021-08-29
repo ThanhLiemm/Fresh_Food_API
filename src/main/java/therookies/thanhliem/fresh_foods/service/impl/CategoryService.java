@@ -24,7 +24,7 @@ public class CategoryService implements ICategoryService {
     private ModelMapper mapper ;
 
     @Override
-    public CategoryDTO save(CategoryDTO categoryDTO) throws RuntimeException{
+    public CategoryDTO save(CategoryDTO categoryDTO){
 
         CategoryEntity categoryEntity  = categoryRepository.findById(categoryDTO.getId())
                     .map(category ->{ //update
@@ -39,11 +39,11 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public CategoryDTO findById(Long id) throws RuntimeException{
+    public CategoryDTO findById(Long id){
         CategoryEntity categoryEntity = categoryRepository.findById(id)
-                .orElseThrow(()->{
-                    throw new IdNotFoundException("Can not found category id = " +id);
-                });
+                .orElseThrow(()->
+                     new IdNotFoundException("Can not found category id = " +id)
+                );
         return mapper.map(categoryEntity,CategoryDTO.class);
     }
 

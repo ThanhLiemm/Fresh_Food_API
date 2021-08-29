@@ -41,9 +41,9 @@ public class ShopCartService implements IShopCartService {
 //        ShopCartEntity entity = mapper.map(dto, ShopCartEntity.class);
 
         CustomerEntity customer = customerRepository.findById(dto.getCustomerId())
-                .orElseThrow(()->{throw new IdNotFoundException("Can't not found customer");});
+                .orElseThrow(()-> new IdNotFoundException("Can't not found customer"));
         ProductEntity product = productRepository.findById(dto.getProduct().getId())
-                .orElseThrow(()->{throw new IdNotFoundException("Can't not found product");});
+                .orElseThrow(()-> new IdNotFoundException("Can't not found product"));
 
 
         ShopCartEntity entity = repository.findById(new ShopCartId(customer.getId(),product.getId()))
@@ -61,12 +61,12 @@ public class ShopCartService implements IShopCartService {
     public List<ShopCartDTO> update(ShopCartDTO dto) {
 
         CustomerEntity customer = customerRepository.findById(dto.getCustomerId())
-                .orElseThrow(()->{throw new IdNotFoundException("Can't not found customer");});
+                .orElseThrow(()-> new IdNotFoundException("Can't not found customer"));
         ProductEntity product = productRepository.findById(dto.getProduct().getId())
-                .orElseThrow(()->{throw new IdNotFoundException("Can't not found product");});
+                .orElseThrow(()-> new IdNotFoundException("Can't not found product"));
 
         ShopCartEntity entity = repository.findById(new ShopCartId(customer.getId(),product.getId()))
-                .orElseThrow( () -> {throw new IdNotFoundException("Can't not found item in shop cart");});
+                .orElseThrow( () ->  new IdNotFoundException("Can't not found item in shop cart"));
 
         entity.setQuantity(dto.getQuantity());
         entity.setChecked(dto.isChecked());
@@ -81,12 +81,12 @@ public class ShopCartService implements IShopCartService {
     public List<ShopCartDTO> delete(Long customerId, Long productId) {
 
         CustomerEntity customer = customerRepository.findById(customerId)
-                .orElseThrow(()->{throw new IdNotFoundException("Can't not found customer");});
+                .orElseThrow(()-> new IdNotFoundException("Can't not found customer"));
         ProductEntity product = productRepository.findById(productId)
-                .orElseThrow(()->{throw new IdNotFoundException("Can't not found product");});
+                .orElseThrow(()-> new IdNotFoundException("Can't not found product"));
         ShopCartId id = new ShopCartId(customer.getId(),product.getId()) ;
         ShopCartEntity entity = repository.findById(id)
-                .orElseThrow(()->{throw new IdNotFoundException("can not found item");});
+                .orElseThrow(()-> new IdNotFoundException("can not found item"));
         repository.delete(entity);
         return getAll(id.getCustomerId());
     }

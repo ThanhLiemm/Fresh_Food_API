@@ -76,9 +76,9 @@ public class ProductService implements IProductService {
 	public ProductDTO findById(Long id) {
 		ProductEntity productEntity = productRepository.findById(id).map(product -> {
 			return product;
-		}).orElseThrow(() -> {
-			throw new IdNotFoundException("Can not found product id = " + id);
-		});
+		}).orElseThrow(() ->
+			new IdNotFoundException("Can not found product id = " + id)
+		);
 		ProductDTO productDTO = mapper.map(productEntity, ProductDTO.class);
 		return productDTO;
 	}
@@ -92,9 +92,9 @@ public class ProductService implements IProductService {
 
 	@Override
 	public Map<String, String> delete(Long id) {
-		ProductEntity productEntity = productRepository.findById(id).orElseThrow(() -> {
-			throw new IdNotFoundException("Can not found product id = " + id);
-		});
+		ProductEntity productEntity = productRepository.findById(id).orElseThrow(() ->
+			new IdNotFoundException("Can not found product id = " + id)
+		);
 		productRepository.delete(productEntity);
 		Map<String, String> response = new HashMap<>();
 		response.put("Status", "Success");
@@ -148,9 +148,9 @@ public class ProductService implements IProductService {
 	public ProductDTO findByIdCusomer(Long id) {
 		ProductEntity productEntity = productRepository.findById(id).map(product -> {
 			return product;
-		}).orElseThrow(() -> {
-			throw new IdNotFoundException("Can not found product id = " + id);
-		});
+		}).orElseThrow(() ->
+			 new IdNotFoundException("Can not found product id = " + id)
+		);
 		if(productEntity.getStatus()==Status.INACTIVE) 
 			throw new IdNotFoundException("Can not found product id = " + id);
 		ProductDTO productDTO = mapper.map(productEntity, ProductDTO.class);
