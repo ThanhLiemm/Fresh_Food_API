@@ -22,13 +22,13 @@ public class AmazonClient {
 
     private AmazonS3 s3client;
 
-    @Value("${amazonProperties.endpointUrl}")
+    @Value("${endpointUrl}")
     private String endpointUrl;
-    @Value("${amazonProperties.bucketName}")
+    @Value("${bucketName}")
     private String bucketName;
-    @Value("${amazonProperties.accessKey}")
+    @Value("${accessKey}")
     private String accessKey;
-    @Value("${amazonProperties.secretKey}")
+    @Value("${secretKey}")
     private String secretKey;
     @PostConstruct
     private void initializeAmazon() {
