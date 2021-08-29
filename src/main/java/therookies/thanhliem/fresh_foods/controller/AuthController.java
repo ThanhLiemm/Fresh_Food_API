@@ -128,7 +128,7 @@ public class AuthController {
             });
         }
 
-        userEntity.setRoles(roleEntities);
+        userEntity.setRoleEntities(roleEntities);
         userRepository.save(userEntity);
         //create default customer profile and shope card
         CustomerEntity customerEntity =new CustomerEntity();

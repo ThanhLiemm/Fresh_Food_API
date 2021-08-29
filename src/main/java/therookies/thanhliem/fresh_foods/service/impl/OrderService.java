@@ -3,10 +3,10 @@ package therookies.thanhliem.fresh_foods.service.impl;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import therookies.thanhliem.fresh_foods.dto.OrderDTO;
 import therookies.thanhliem.fresh_foods.entity.OrderDetailEntity;
+import therookies.thanhliem.fresh_foods.entity.OrderDetailEntity.OrderDetailId;
 import therookies.thanhliem.fresh_foods.entity.OrderEntity;
 import therookies.thanhliem.fresh_foods.entity.OrderEntity.Status;
 import therookies.thanhliem.fresh_foods.entity.ProductEntity;
@@ -56,8 +56,12 @@ public class OrderService implements IOrderService {
             product.setQuantity(product.getQuantity()-orderDetail.getQuantity());
             if(product.getQuantity()==0) //if( buy = quantity => quantity=0=>status.Inactive
             	product.setStatus(therookies.thanhliem.fresh_foods.entity.ProductEntity.Status.INACTIVE);
-            orderE.setProduct(product);
+            //set copy columns in product into orderdetail
             orderE.setOrder(orderEntity);
+            orderE.setProduct(product);
+            orderE.setDeadline(product.getDeadline());
+            orderE.setPrice(product.getPrice());
+            orderE.setDiscount(product.getDiscount());
             return orderE;
         }).collect(Collectors.toList());
         

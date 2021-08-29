@@ -47,7 +47,7 @@ public class OrderController {
     @GetMapping(value="/order")
     public List<OrderDTO> getAll() {
         setUser();
-       Long check = user.get().getRoles().stream().filter(role-> role.getName()==RoleName.ROLE_ADMIN).count();
+       Long check = user.get().getRoleEntities().stream().filter(role-> role.getName()==RoleName.ROLE_ADMIN).count();
         if(check>0) return orderService.getAll();
         return orderService.getAllByCustomer(user.get().getId());
     }
@@ -55,7 +55,7 @@ public class OrderController {
     @GetMapping(value="/order/{id}")
     public OrderDTO getOneInCustomerId(@PathVariable(name = "id") Long id) {
         setUser();
-        Long check = user.get().getRoles().stream().filter(role-> role.getName()==RoleName.ROLE_ADMIN).count();
+        Long check = user.get().getRoleEntities().stream().filter(role-> role.getName()==RoleName.ROLE_ADMIN).count();
         if(check>0) return orderService.getById(id);
         return orderService.getById(id,user.get().getId());
     }

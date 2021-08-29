@@ -1,13 +1,34 @@
 package therookies.thanhliem.fresh_foods.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "shopcart")
-public class ShopCartEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+public class ShopCartEntity implements Serializable {
+
+    @EmbeddedId
+    private ShopCartId id;
+
+    @ManyToOne
+    @MapsId("customerId")
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customer;
+
+    @ManyToOne
+    @MapsId("productId")
+    @JoinColumn(name = "product_id")
+    private ProductEntity product;
 
     @Column(name = "checked")
     boolean checked;
@@ -15,51 +36,30 @@ public class ShopCartEntity {
     @Column(name = "quantity")
     int quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "customerId")
-    private CustomerEntity customer;
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Embeddable
+    public static class ShopCartId implements Serializable {
+        @Column(name = "customer_id")
+        private Long customerId;
 
-    @ManyToOne
-    @JoinColumn(name = "productId")
-    private ProductEntity product;
+        @Column(name = "product_id")
+        private Long productId;
 
-    public boolean isChecked() {
-        return checked;
-    }
+        @Override
+        public int hashCode() {
+            return Objects.hash(customerId,productId);
+        }
 
-    public void setChecked(boolean checked) {
-        this.checked = checked;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public CustomerEntity getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(CustomerEntity customer) {
-        this.customer = customer;
-    }
-
-    public ProductEntity getProduct() {
-        return product;
-    }
-
-    public void setProduct(ProductEntity product) {
-        this.product = product;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        @Override
+        public boolean equals(Object obj) {
+            if(this == obj) return true;
+            if(obj == null && obj.getClass()!= getClass()) return false;
+            ShopCartId shopCartId = (ShopCartId) obj;
+            return customerId.equals(shopCartId.customerId) &&
+                    productId.equals(shopCartId.productId);
+        }
     }
 }

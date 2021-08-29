@@ -45,7 +45,7 @@ public class OrderEntity {
     @LastModifiedDate
     @Column(name="modifieddate")
     private Date modifiedDate;
-    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL, orphanRemoval = true)
     List<OrderDetailEntity> orderitems = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name ="customer_id")
@@ -164,5 +164,13 @@ public class OrderEntity {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(getClass()!= obj.getClass() && obj == null) return false;
+        OrderEntity orderEntity = (OrderEntity) obj;
+        return id.equals(orderEntity.id);
     }
 }

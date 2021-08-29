@@ -1,51 +1,84 @@
 package therookies.thanhliem.fresh_foods.entity;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Objects;
+
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name="orderdetail")
-public class OrderDetailEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class OrderDetailEntity implements Serializable {
+
+    @EmbeddedId
+    private OrderDetailId id;
+
+
     @Column(name="quantity")
     private int quantity;
+
+    @Column(name="price",columnDefinition = "real default 100000")
+    private Float price;
+
+    @Column(name="discount",columnDefinition = "integer default 10")
+    private Integer discount;
+
+    @Column(name = "deadline",columnDefinition = "default '2021-11-21 06:59:59'")
+    private Date deadline;
+
     @ManyToOne
-    @JoinColumn(name="product_id")
+    @MapsId("productId")
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
+
     @ManyToOne
-    @JoinColumn(name="orderdetail_id")
+    @MapsId("orderId")
+    @JoinColumn(name = "orderdetail_id")
     private OrderEntity order;
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
+    public OrderDetailEntity(int quantity, float price, int discount, Date deadline, ProductEntity product, OrderEntity order) {
+        this.id = new OrderDetailId(product.getId(),order.getId());
         this.quantity = quantity;
-    }
-
-
-    public OrderEntity getOrder() {
-        return order;
-    }
-
-    public void setOrder(OrderEntity order) {
+        this.price = price;
+        this.discount = discount;
+        this.deadline = deadline;
+        this.product = product;
         this.order = order;
     }
 
-    public ProductEntity getProduct() {
-        return product;
-    }
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Embeddable
+    public static class OrderDetailId implements Serializable {
+        @Column(name="product_id")
+        private Long productId;
 
-    public void setProduct(ProductEntity product) {
-        this.product = product;
-    }
+        @Column(name="orderdetail_id")
+        private Long orderId;
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(productId,orderId);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if(this == obj) return true;
+            if(obj == null || getClass() != obj.getClass()) return false ;
+            OrderDetailId orderDetailId = (OrderDetailId) obj;
+            return productId.equals(orderDetailId.productId) &&
+                    orderId.equals(orderDetailId.orderId);
+        }
+}
+
 }

@@ -228,4 +228,12 @@ public class ProductEntity{
     public void setShopcarts(List<ShopCartEntity> shopcarts) {
         this.shopcarts = shopcarts;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(obj == null || obj.getClass() != getClass()) return false;
+        ProductEntity productEntity = (ProductEntity) obj;
+        return id.equals(productEntity.id);
+    }
 }

@@ -59,7 +59,8 @@ public class ShopCartController {
         return service.update(dto);
     }
     @DeleteMapping(value = "/shopcart")
-    public List<ShopCartDTO> delete(@RequestParam(name = "shopcartId") Long id) {
-        return service.delete(id);
+    public List<ShopCartDTO> delete(@RequestParam(name = "productId") Long productid) {
+        Long customerId = user.get().getCustomer().getId();
+        return service.delete(customerId,productid);
     }
 }
