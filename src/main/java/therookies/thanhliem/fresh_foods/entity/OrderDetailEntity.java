@@ -15,7 +15,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="orderdetail")
+@Table(name="order_details")
 public class OrderDetailEntity implements Serializable {
 
     @EmbeddedId
@@ -25,13 +25,13 @@ public class OrderDetailEntity implements Serializable {
     @Column(name="quantity")
     private int quantity;
 
-    @Column(name="price",columnDefinition = "real default 100000")
+    @Column(name="price")
     private Float price;
 
-    @Column(name="discount",columnDefinition = "integer default 10")
+    @Column(name="discount")
     private Integer discount;
 
-    @Column(name = "deadline",columnDefinition = "default '2021-11-21 06:59:59'")
+    @Column(name = "deadline")
     private Date deadline;
 
     @ManyToOne
