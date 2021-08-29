@@ -27,7 +27,7 @@ class CategoryServiceTest {
     CategoryService service;
     @MockBean
     CategoryRepository repository;
-    private static List<CategoryEntity> list = new ArrayList<>();
+    private static final List<CategoryEntity> list = new ArrayList<>();
 
     @BeforeAll
     static void init() {

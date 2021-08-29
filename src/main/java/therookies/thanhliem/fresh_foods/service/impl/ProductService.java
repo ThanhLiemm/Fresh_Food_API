@@ -27,7 +27,7 @@ public class ProductService implements IProductService {
 	private CategoryRepository categoryRepository;
 
 	@Autowired
-	private ModelMapper mapper;
+	private final ModelMapper mapper;
 
 	public ProductService(ModelMapper modelMapper) {
 		this.mapper = modelMapper;

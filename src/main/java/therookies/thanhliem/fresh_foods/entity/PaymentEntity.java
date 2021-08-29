@@ -66,7 +66,6 @@ public class PaymentEntity{
         PaymentEntity payment = (PaymentEntity) o;
 
         if (id != null ? !id.equals(payment.id) : payment.id != null) return false;
-        if (name != null ? !name.equals(payment.name) : payment.name != null) return false;
-        return true;
+        return name != null ? name.equals(payment.name) : payment.name == null;
     }
 }

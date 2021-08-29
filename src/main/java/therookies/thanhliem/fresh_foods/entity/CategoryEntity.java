@@ -106,8 +106,7 @@ public class CategoryEntity {
         CategoryEntity category = (CategoryEntity) o;
 
         if (id != null ? !id.equals(category.id) : category.id != null) return false;
-        if (name != null ? !name.equals(category.name) : category.name != null) return false;
-        return true;
+        return name != null ? name.equals(category.name) : category.name == null;
     }
 
 }

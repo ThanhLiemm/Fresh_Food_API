@@ -33,7 +33,7 @@ class PaymentServiceTest {
     @MockBean
     PaymentRepository repository;
 
-    private static List<PaymentEntity> listPayment = new ArrayList<>();
+    private static final List<PaymentEntity> listPayment = new ArrayList<>();
 
     @BeforeAll
     public static void init() {

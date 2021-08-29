@@ -30,7 +30,7 @@ public class ProductController{
     private IProductService productService;
     @Autowired
     private UserRepository userRepository;
-    private AmazonClient amazonClient;
+    private final AmazonClient amazonClient;
     @Autowired
     ProductController(AmazonClient amazonClient) {
 		this.amazonClient = amazonClient;

@@ -16,7 +16,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 public class OrderEntity {
     public enum Status {
-            DELIVERING,DELIVERED,CANCEL;
+            DELIVERING,DELIVERED,CANCEL
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

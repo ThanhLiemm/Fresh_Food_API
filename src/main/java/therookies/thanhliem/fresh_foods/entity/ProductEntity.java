@@ -19,7 +19,7 @@ public class ProductEntity{
 
     }
     public enum Status {
-        INACTIVE,ACTIVE;
+        INACTIVE,ACTIVE
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

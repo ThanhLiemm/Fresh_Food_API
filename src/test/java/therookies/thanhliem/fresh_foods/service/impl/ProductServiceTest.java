@@ -34,7 +34,7 @@ class ProductServiceTest {
     @MockBean
     CategoryRepository caRepository;
 
-    private static List<ProductEntity> listProduct = new ArrayList<>();
+    private static final List<ProductEntity> listProduct = new ArrayList<>();
 
     @Autowired
     ModelMapper mapper;

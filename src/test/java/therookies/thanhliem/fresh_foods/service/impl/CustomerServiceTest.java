@@ -23,7 +23,7 @@ class CustomerServiceTest {
     CustomerService service;
     @MockBean
     CustomerRepository repository;
-    static private CustomerEntity customer = new CustomerEntity();
+    static private final CustomerEntity customer = new CustomerEntity();
     @Autowired
     ModelMapper mapper;
 
