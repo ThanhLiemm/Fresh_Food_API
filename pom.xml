@@ -11,7 +11,7 @@
 	<groupId>therookies.thanhliem</groupId>
 	<artifactId>fresh_foods</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>fresh_foods</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
