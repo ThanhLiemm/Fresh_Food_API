@@ -34,7 +34,7 @@ public class ProductService implements IProductService {
 		this.mapper.typeMap(ProductEntity.class, ProductDTO.class).addMapping(src -> src.getCategory().getId(),
 				ProductDTO::setCategory_id);
 		this.mapper.typeMap(ProductEntity.class, ProductDTO.class).addMapping(ProductEntity::getImages,
-				ProductDTO::setListImge);
+				ProductDTO::setListImage);
 //        this.mapper.typeMap(ImageDTO.class,ImageEntity.class).addMapping(ImageDTO::getUrl,ImageEntity::setUrl);
 	}
 

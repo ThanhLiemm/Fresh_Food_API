@@ -1,5 +1,9 @@
 package therookies.thanhliem.fresh_foods.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -7,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "role")
 public class RoleEntity {
@@ -18,32 +26,6 @@ public class RoleEntity {
     @NaturalId
     @Column(length = 60)
     private RoleName name;
-
-    public RoleEntity() {
-        super();
-    }
-
-    public RoleEntity(Long id, RoleName name) {
-        super();
-        this.id = id;
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public RoleName getName() {
-        return name;
-    }
-
-    public void setName(RoleName name) {
-        this.name = name;
-    }
 
     @Override
     public int hashCode() {

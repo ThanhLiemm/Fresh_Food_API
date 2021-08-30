@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: therookies.thanhliem.fresh_foods.FreshFoodsApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.382 s - in therookies.thanhliem.fresh_foods.FreshFoodsApplicationTests

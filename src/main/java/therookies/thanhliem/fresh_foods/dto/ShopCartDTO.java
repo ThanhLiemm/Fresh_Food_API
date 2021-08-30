@@ -10,8 +10,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShopCartDTO {
+
     private int quantity;
+
     private boolean checked;
+
     private ProductDTO product;
+
     private Long customerId;
 }
